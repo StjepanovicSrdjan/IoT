@@ -6,14 +6,11 @@ def simulate_motions():
         yield random.random()
 
 
-def run_dpir_simulator(callback,light_on_event, motion_event, stop_event):
+def run_rpir_simulator(callback, name, stop_event):
     for m in simulate_motions():
         time.sleep(1)
         if m > 0.9:
-            callback(light_on_event)
-            motion_event.set()
+            callback(name)
             time.sleep(1)
         if stop_event.is_set():
             break
-
-

@@ -19,8 +19,15 @@ class DL(object):
 
         self.is_on = not self.is_on
 
+    def on_by_motion(self):
+        GPIO.output(self.pin,GPIO.HIGH)
+        time.sleep(3)
+        GPIO.output(self.pin,GPIO.LOW)
 
-def run_dl_sen(dl, light_event, stop_event):
+        self.is_on = False
+
+
+def run_dl_sen(dl, motion_event, light_event, stop_event):
     dl.set_pin()
     while True:
         time.sleep(1)
@@ -28,5 +35,9 @@ def run_dl_sen(dl, light_event, stop_event):
             light_event.clear()
             dl.switch()
         
+        if motion_event.is_set():
+            motion_event.clear()
+            dl.on_by_motion()
+            
         if stop_event.is_set():
             break

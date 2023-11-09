@@ -1,11 +1,7 @@
 import time 
-import random
 
-def simulate_action():
-    while True:
-        yield random.random()
 
-def run_dl_simulator(callback_on, callback_off, light_event, stop_event):
+def run_dl_simulator(callback_on, callback_off, motion_event, light_event, stop_event):
     is_on = False
     while True:
 
@@ -19,6 +15,14 @@ def run_dl_simulator(callback_on, callback_off, light_event, stop_event):
                 is_on = True
                 callback_on()
                 continue
+
+        if motion_event.is_set():
+            motion_event.clear()
+            callback_on()
+            time.sleep(3)
+            callback_off()
+            is_on = False
+
         time.sleep(1)
 
         if stop_event.is_set():
