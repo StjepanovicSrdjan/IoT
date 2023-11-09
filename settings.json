@@ -9,6 +9,7 @@
     },
     "DUS1": {
         "simulated": true,
-        "pin": 18
+        "trig_pin": 18,
+        "echo_pin": 18
     }
 }
