@@ -15,7 +15,7 @@ class DPIR(object):
 
 
 
-def run_dpir(dpir, callback, stop_event):
+def run_dpir_sen(dpir, callback, stop_event):
     dpir.detect_motion(callback)
     while True:
         if stop_event.is_set():
