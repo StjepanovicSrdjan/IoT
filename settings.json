@@ -3,6 +3,16 @@
         "simulated": true,
         "pin": 17
     },
+    "RPIR1": {
+        "simulated": true,
+        "pin": 17,
+        "name": "RPIR1"
+    },
+    "RPIR2": {
+        "simulated": true,
+        "pin": 17,
+        "name": "RPIR2"
+    },
     "DL": {
         "simulated": true,
         "pin": 18

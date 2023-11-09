@@ -18,9 +18,9 @@ def run_dpir(settings, threads, light_on_event, motion_event, stop_event):
         threads.append(dpir1_thread)
         print("DPIR1 sumilator started")
     else:
-        from sensors.DPIR1_sen import run_dpir_sen, DPIR
+        from sensors.PIR_sen import run_dpir_sen, PIR
         print('Startin DPIR1 sensor')
-        dpir = DPIR(settings['pin'])
+        dpir = PIR(settings['pin'])
         dpir1_thread = threading.Thread(target = run_dpir_sen, args=(dpir, dpir_callback, light_on_event, stop_event))
         dpir1_thread.start()
         threads.append(dpir1_thread)
