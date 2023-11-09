@@ -15,10 +15,10 @@ def dl_off_callback():
     print('The door light is OFF!')
 
 
-def run_dl(settings, threads, light_event, stop_event):
+def run_dl(settings, threads, motion_event, light_event, stop_event):
     if settings['simulated']:
         print('Starting DL simulation')
-        dl_thread = threading.Thread(target=run_dl_simulator, args=(dl_on_callback, dl_off_callback, light_event, stop_event))
+        dl_thread = threading.Thread(target=run_dl_simulator, args=(dl_on_callback, dl_off_callback, motion_event, light_event, stop_event))
         dl_thread.start()
         threads.append(dl_thread)
         print('DL simulator started')
