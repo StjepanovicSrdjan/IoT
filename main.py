@@ -3,6 +3,7 @@ import time
 from settings import load_settings
 from components.DPIR1 import run_dpir
 from components.DL import run_dl
+from components.UDS import run_uds
 import keyboard
 
 try:
@@ -26,13 +27,13 @@ if __name__ == '__main__':
     threads = []
     stop_event = threading.Event()
     lighton_event = threading.Event()
+    motion_event = threading.Event()
     keyboard_callback = lambda key: on_key_event(key, lighton_event)
     keyboard.hook(keyboard_callback)
     try:
-        dpir1_settings = settings['DPIR1']
-        dl_settings = settings['DL']
-        run_dpir(dpir1_settings, threads, stop_event)
-        run_dl(dl_settings, threads, lighton_event, stop_event)
+        run_dpir(settings['DPIR1'], threads, motion_event, stop_event)
+        run_dl(settings['DL'], threads, lighton_event, stop_event)
+        run_uds(settings['DUS1'], threads, motion_event, stop_event)
         while True:
             time.sleep(1)
     except KeyboardInterrupt:

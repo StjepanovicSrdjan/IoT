@@ -6,5 +6,9 @@
     "DL": {
         "simulated": true,
         "pin": 18
+    },
+    "DUS1": {
+        "simulated": true,
+        "pin": 18
     }
 }

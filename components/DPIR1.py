@@ -9,16 +9,16 @@ def dpir_callback():
     print("DPIR1 detected motion!")
 
 
-def run_dpir(settings, threads, stop_event):
+def run_dpir(settings, threads, motion_event, stop_event):
     if settings['simulated']:
         print('Starting DPIR1 simulation')
-        dpir1_thread = threading.Thread(target = run_dpir_simulator, args=(dpir_callback, stop_event))
+        dpir1_thread = threading.Thread(target = run_dpir_simulator, args=(dpir_callback, motion_event, stop_event))
         dpir1_thread.start()
         threads.append(dpir1_thread)
         print("DPIR1 sumilator started")
     else:
         from sensors.DPIR1_sen import run_dpir_sen, DPIR
-        print('Startin DPIR sensor')
+        print('Startin DPIR1 sensor')
         dpir = DPIR(settings['pin'])
         dpir1_thread = threading.Thread(target = run_dpir_sen, args=(dpir, dpir_callback, stop_event))
         dpir1_thread.start()
