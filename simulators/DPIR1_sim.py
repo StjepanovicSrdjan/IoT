@@ -1,6 +1,7 @@
 import time
 import random
 
+
 def simulate_motions():
     while True:
         yield random.random()
@@ -15,5 +16,3 @@ def run_dpir_simulator(callback,light_on_event, motion_event, stop_event):
             time.sleep(1)
         if stop_event.is_set():
             break
-
-

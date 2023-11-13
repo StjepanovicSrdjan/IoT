@@ -1,4 +1,8 @@
 {
+    "DS1": {
+        "simulated": true,
+        "pin": 17
+    },
     "DPIR1": {
         "simulated": true,
         "pin": 17
