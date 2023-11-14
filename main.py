@@ -2,6 +2,7 @@ import threading
 import time
 
 from components.DB import run_db
+from components.DHT import run_dht
 from components.DMS import run_dms
 from components.DS1 import run_ds
 from settings import load_settings
@@ -57,7 +58,9 @@ if __name__ == '__main__':
         # run_uds(settings['DUS1'], threads, motion_event, stop_event)
         run_ds(settings['DS1'], threads, open_event, stop_event)
         run_db(settings['DB'], threads, buzz_event, stop_event)
-        run_dms(settings['DB'], threads, stop_event)
+        run_dms(settings['DMS'], threads, stop_event)
+        run_dht(settings['DHT1'], threads, stop_event, "DHT1")
+        run_dht(settings['DHT2'], threads, stop_event, "DHT2")
         while True:
             time.sleep(1)
     except KeyboardInterrupt:
