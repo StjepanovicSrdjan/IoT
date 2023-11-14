@@ -23,9 +23,9 @@ def run_dl(settings, threads, motion_event, light_event, stop_event):
         threads.append(dl_thread)
         print('DL simulator started')
     else:
-        from sensors.DL_sen import run_dl_sen, DL
+        from actuators.DL_act import run_dl_act, DL
         print('Starting DL actuator')
         dl = DL(settings['pin'])
-        dl_thread = threading.Thread(target=run_dl_sen, args=(dl, light_event, stop_event))
+        dl_thread = threading.Thread(target=run_dl_act, args=(dl, light_event, stop_event))
         threads.append(dl_thread)
         print('DL actuator started')
