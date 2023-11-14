@@ -61,6 +61,7 @@ if __name__ == '__main__':
         run_dms(settings['DMS'], threads, stop_event)
         run_dht(settings['DHT1'], threads, stop_event, "DHT1")
         run_dht(settings['DHT2'], threads, stop_event, "DHT2")
+
         while True:
             time.sleep(1)
     except KeyboardInterrupt:
