@@ -1,6 +1,7 @@
 import threading
 import time
 
+from components.DB import run_db
 from components.DS1 import run_ds
 from settings import load_settings
 from components.DPIR1 import run_dpir
@@ -17,7 +18,7 @@ except:
     pass
 
 
-def on_key_event(key, light_event, open_event):
+def on_key_event(key, light_event, open_event, buzz_event):
     if key.name == 'l' and key.event_type == keyboard.KEY_DOWN:
         light_event.set()
     elif key.name == 'l' and key.event_type == keyboard.KEY_UP:
@@ -26,6 +27,8 @@ def on_key_event(key, light_event, open_event):
         open_event.set()
     elif key.name == 'd' and key.event_type == keyboard.KEY_UP:
         open_event.clear()
+    elif key.name == 'b' and key.event_type == keyboard.KEY_DOWN:
+        buzz_event.set()
 
 
 if __name__ == '__main__':
@@ -38,10 +41,11 @@ if __name__ == '__main__':
     lighton_event = threading.Event()
     motion_event = threading.Event()
     open_event = threading.Event()
+    buzz_event = threading.Event()
     light_on_by_motion_event = threading.Event()
 
     def keyboard_callback(key):
-        on_key_event(key, lighton_event, open_event)
+        on_key_event(key, lighton_event, open_event, buzz_event)
     keyboard.hook(keyboard_callback)
 
     try:
@@ -51,6 +55,7 @@ if __name__ == '__main__':
         run_dl(settings['DL'], threads, light_on_by_motion_event, lighton_event, stop_event)
         # run_uds(settings['DUS1'], threads, motion_event, stop_event)
         run_ds(settings['DS1'], threads, open_event, stop_event)
+        run_db(settings['DB1'], threads, buzz_event, stop_event)
         while True:
             time.sleep(1)
     except KeyboardInterrupt:
