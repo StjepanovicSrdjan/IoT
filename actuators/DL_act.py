@@ -27,7 +27,7 @@ class DL(object):
         self.is_on = False
 
 
-def run_dl_sen(dl, motion_event, light_event, stop_event):
+def run_dl_act(dl, motion_event, light_event, stop_event):
     dl.set_pin()
     while True:
         time.sleep(1)
