@@ -23,8 +23,8 @@ except:
 def on_key_event(key, light_event, open_event, buzz_event):
     if key.name == 'l' and key.event_type == keyboard.KEY_DOWN:
         light_event.set()
-    elif key.name == 'l' and key.event_type == keyboard.KEY_UP:
-        light_event.clear()
+    # elif key.name == 'l' and key.event_type == keyboard.KEY_UP:
+    #     light_event.clear()
     elif key.name == 'd' and key.event_type == keyboard.KEY_DOWN:
         open_event.set()
     elif key.name == 'd' and key.event_type == keyboard.KEY_UP:
@@ -52,8 +52,8 @@ if __name__ == '__main__':
 
     try:
         run_dpir(settings['DPIR1'], threads, light_on_by_motion_event, motion_event, stop_event)
-        run_rpir(settings['RPIR1'], threads, stop_event)
-        run_rpir(settings['RPIR2'], threads, stop_event)
+        # run_rpir(settings['RPIR1'], threads, stop_event)
+        # run_rpir(settings['RPIR2'], threads, stop_event)
         run_dl(settings['DL'], threads, light_on_by_motion_event, lighton_event, stop_event)
         # run_uds(settings['DUS1'], threads, motion_event, stop_event)
         run_ds(settings['DS1'], threads, open_event, stop_event)
@@ -61,6 +61,7 @@ if __name__ == '__main__':
         run_dms(settings['DMS'], threads, stop_event)
         run_dht(settings['DHT1'], threads, stop_event, "DHT1")
         run_dht(settings['DHT2'], threads, stop_event, "DHT2")
+
         while True:
             time.sleep(1)
     except KeyboardInterrupt:
