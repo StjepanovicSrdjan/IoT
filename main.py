@@ -2,6 +2,7 @@ import threading
 import time
 
 from components.DB import run_db
+from components.DMS import run_dms
 from components.DS1 import run_ds
 from settings import load_settings
 from components.DPIR1 import run_dpir
@@ -55,7 +56,8 @@ if __name__ == '__main__':
         run_dl(settings['DL'], threads, light_on_by_motion_event, lighton_event, stop_event)
         # run_uds(settings['DUS1'], threads, motion_event, stop_event)
         run_ds(settings['DS1'], threads, open_event, stop_event)
-        run_db(settings['DB1'], threads, buzz_event, stop_event)
+        run_db(settings['DB'], threads, buzz_event, stop_event)
+        run_dms(settings['DB'], threads, stop_event)
         while True:
             time.sleep(1)
     except KeyboardInterrupt:

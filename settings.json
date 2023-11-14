@@ -26,10 +26,21 @@
         "trig_pin": 18,
         "echo_pin": 18
     },
-    "DB1": {
+    "DB": {
         "simulated": true,
         "pin": 17,
         "pitch": 440,
         "duration": 0.1
+    },
+    "DMS": {
+        "simulated": true,
+        "R1": 25,
+        "R2": 8,
+        "R3": 7,
+        "R4": 1,
+        "C1": 12,
+        "C2": 16,
+        "C3": 20,
+        "C4": 21
     }
 }
