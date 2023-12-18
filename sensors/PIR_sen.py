@@ -14,8 +14,8 @@ class PIR(object):
 
 
 
-def run_dpir_sen(dpir, callback, light_on_event, stop_event):
-    detect_callback = lambda _: callback(light_on_event)
+def run_dpir_sen(dpir, callback, light_on_event, stop_event, publish_event, settings):
+    detect_callback = lambda _: callback(light_on_event, publish_event, settings)
     dpir.detect_motion(detect_callback)
     while True:
         if stop_event.is_set():
