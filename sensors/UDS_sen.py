@@ -42,12 +42,12 @@ class UDS(object):
         return distance
     
 
-def run_uds_sen(uds, callback, stop_event):
+def run_uds_sen(uds, callback, stop_event, publish_event, settings):
     uds.set_pin()
     while True:
         distance = uds.get_distance()
         if distance is not None:
-            callback(distance)
+            callback(distance, publish_event, settings)
         time.sleep(1)
 
         if stop_event.is_set():

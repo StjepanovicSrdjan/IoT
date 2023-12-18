@@ -5,24 +5,24 @@ class DS:
     def __init__(self, pin):
         self.pin = pin
 
-    def start_detection(self, callback_open, callback_close):
+    def start_detection(self, callback, publish_event, settings):
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.add_event_detect(
             self.pin, GPIO.BOTH,
-            callback=self.button_pressed(callback_open, callback_close),
+            callback=self.button_pressed(callback, publish_event, settings),
             bouncetime=100
         )
 
     def get_state(self):
         return GPIO.input(self.pin) == GPIO.LOW
 
-    def button_pressed(self, callback_open, callback_close):
+    def button_pressed(self, callback, publish_event, settings):
         def callback(*args, **kwargs):
             if self.get_state():
-                callback_open()
+                callback(publish_event, settings, "Door opened.")
             else:
-                callback_close()
+                callback(publish_event, settings, "Door closed.")
 
         return callback
 
@@ -30,8 +30,8 @@ class DS:
         GPIO.cleanup()
 
 
-def run_ds_sen(ds, callback_open, callback_close, stop_event):
-    ds.start_detection(callback_open, callback_close)
+def run_ds_sen(ds, callback, stop_event, publish_event, settings):
+    ds.start_detection(callback, publish_event, settings)
     while True:
         if stop_event.is_set():
             break

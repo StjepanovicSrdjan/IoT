@@ -30,25 +30,24 @@ publisher_thread.start()
 
 def dpir_callback(light_on_event, publish_event, settings):
     global publish_data_counter, publish_data_limit
-    t = time.localtime()
     payload = {
-        "measurement": "DPIR",
+        "measurement": "PIR",
         "simulated": settings['simulated'],
         "runs_on": settings["runs_on"],
         "name": settings["name"],
         "value": "Motion detected"
         }
     with counter_lock:
-        dpir_batch.append(('DPIR', json.dumps(payload), 0, True))
+        dpir_batch.append(('PIR', json.dumps(payload), 0, True))
         publish_data_counter += 1
 
     if publish_data_counter >= publish_data_limit:
         publish_event.set()
     light_on_event.set()
-    t = time.localtime()
-    print('='*20)
-    print(f"Timestamp: {time.strftime('%H:%M:%S', t)}")
-    print("DPIR1 detected motion!")
+    # t = time.localtime()
+    # print('='*20)
+    # print(f"Timestamp: {time.strftime('%H:%M:%S', t)}")
+    # print("DPIR1 detected motion!")
 
 
 def run_dpir(settings, threads, light_on_event, motion_event, stop_event):

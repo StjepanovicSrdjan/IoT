@@ -45,9 +45,9 @@ def char_input_callback(c, publish_event, settings):
 
     if publish_data_counter >= publish_data_limit:
         publish_event.set()
-    print('=' * 20)
-    print(f"Timestamp: {time.strftime('%H:%M:%S', t)}")
-    print(f"Keyboard input $>> {c}")
+    # print('=' * 20)
+    # print(f"Timestamp: {time.strftime('%H:%M:%S', t)}")
+    # print(f"Keyboard input $>> {c}")
 
 
 def run_dms(settings, threads, stop_event):
