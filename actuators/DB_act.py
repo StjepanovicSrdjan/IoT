@@ -26,11 +26,12 @@ class DB:
         GPIO.cleanup()
 
 
-def run_db_act(db, buzz_event, stop_event):
+def run_db_act(db, callback, buzz_event, stop_event, publish_event, settings):
     db.activate()
     while True:
         if buzz_event.is_set():
             db.buzz()
+            callback(publish_event, settings)
             buzz_event.clear()
         if stop_event.is_set():
             break

@@ -8,11 +8,12 @@ def buzz():
     print("BUZZ!")
 
 
-def run_db_simulator(buzz_event, stop_event):
+def run_db_simulator(callback, buzz_event, stop_event, publish_event, settings):
     while True:
         if buzz_event.is_set():
             buzz_event.clear()
             buzz()
+            callback(publish_event, settings)
 
         time.sleep(1)
 
