@@ -46,9 +46,9 @@ def door_callback(publish_event, settings, action):
     if publish_data_counter >= publish_data_limit:
         publish_event.set()
     t = time.localtime()
-    # print('='*20)
-    # print(f"Timestamp: {time.strftime('%H:%M:%S', t)}")
-    # print("DOOR " + action + "!")
+    print('='*20)
+    print(f"Timestamp: {time.strftime('%H:%M:%S', t)}")
+    print("DOOR " + action + "!")
 
 
 

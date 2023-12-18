@@ -43,6 +43,11 @@ def dl_callback(publish_event, dl_settings, action):
 
     if publish_data_counter >= publish_data_limit:
         publish_event.set()
+
+    t = time.localtime()
+    print('='*20)
+    print(f"Timestamp: {time.strftime('%H:%M:%S', t)}")
+    print('The door light is ' + action + '!')
   
 
 
