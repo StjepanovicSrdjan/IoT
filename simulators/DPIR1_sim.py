@@ -10,7 +10,7 @@ def simulate_motions():
 def run_dpir_simulator(callback,light_on_event, motion_event, stop_event):
     for m in simulate_motions():
         time.sleep(1)
-        if m > 0.9:
+        if m > 0.5:
             callback(light_on_event)
             motion_event.set()
             time.sleep(1)

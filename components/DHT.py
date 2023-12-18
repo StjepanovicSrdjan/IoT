@@ -30,7 +30,6 @@ publisher_thread.start()
 
 def dht_callback(humidity, temperature, publish_event, dht_settings):
     global publish_data_counter, publish_data_limit
-
     temp_payload = {
         "measurement": "Temperature",
         "simulated": dht_settings['simulated'],
