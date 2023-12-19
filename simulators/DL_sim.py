@@ -1,7 +1,7 @@
 import time 
 
 
-def run_dl_simulator(callback_on, callback_off, motion_event, light_event, stop_event):
+def run_dl_simulator(callback, motion_event, light_event, stop_event, publish_event, settings):
     is_on = False
     while True:
 
@@ -9,18 +9,18 @@ def run_dl_simulator(callback_on, callback_off, motion_event, light_event, stop_
             light_event.clear()
             if is_on:
                 is_on = False
-                callback_off()
+                callback(publish_event, settings, "OFF")
                 continue
             if not is_on:
                 is_on = True
-                callback_on()
+                callback(publish_event, settings,"ON")
                 continue
 
         if motion_event.is_set():
             motion_event.clear()
-            callback_on()
+            callback(publish_event, settings,'ON')
             time.sleep(3)
-            callback_off()
+            callback(publish_event, settings,'OFF')
             is_on = False
 
         time.sleep(1)
