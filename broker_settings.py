@@ -1,2 +1,2 @@
-HOSTNAME = "localhost"
+HOSTNAME = "10.1.121.92"
 PORT = 1883
