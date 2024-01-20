@@ -28,7 +28,9 @@ publisher_thread.daemon = True
 publisher_thread.start()
 
 
-def dht_callback(humidity, temperature, publish_event, dht_settings):
+def dht_callback(humidity, temperature, publish_event, dht_settings, mess_queue):
+    if mess_queue:
+        mess_queue.put([temperature, humidity])
     global publish_data_counter, publish_data_limit
     temp_payload = {
         "measurement": "Temperature",
@@ -55,10 +57,10 @@ def dht_callback(humidity, temperature, publish_event, dht_settings):
         publish_event.set()
 
 
-def run_dht(settings, threads, stop_event, name):
+def run_dht(settings, threads, stop_event, name, mess_queue=None):
     if settings['simulated']:
         print(f"Starting {name} simulator")
-        dht1_thread = threading.Thread(target=run_dht_simulator, args=(2, dht_callback, stop_event, publish_event, settings))
+        dht1_thread = threading.Thread(target=run_dht_simulator, args=(2, dht_callback, stop_event, publish_event, settings, mess_queue))
         dht1_thread.start()
         threads.append(dht1_thread)
         print(f"{name} simulator started")

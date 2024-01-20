@@ -68,5 +68,82 @@
         "pin": 17,
         "runs_on": "PI1",
         "name": "DHT2"
+    },
+    "GDHT": {
+        "simulated": true,
+        "pin": 17,
+        "runs_on": "PI2",
+        "name": "GDHT"
+    },
+    "GLCD": {
+        "isOn": false,
+        "pin": 17,
+        "runs_on": "PI2",
+        "name": "GLCD"
+    },
+    "DS2": {
+        "simulated": true,
+        "pin": 17,
+        "runs_on": "PI2",
+        "name": "DS2"
+    },
+    "DPIR2": {
+        "simulated": true,
+        "pin": 17,
+        "runs_on": "PI2",
+        "name": "DPIR2"
+    },
+    "RPIR3": {
+        "simulated": true,
+        "pin": 17,
+        "runs_on": "PI2",
+        "name": "RPIR3"
+    },
+    "DHT3": {
+        "simulated": true,
+        "pin": 17,
+        "runs_on": "PI2",
+        "name": "DHT3"
+    },
+    "DUS2": {
+        "simulated": true,
+        "trig_pin": 18,
+        "echo_pin": 18,
+        "runs_on": "PI2",
+        "name": "DUS2"
+    },
+    "RPIR4": {
+        "simulated": true,
+        "pin": 17,
+        "runs_on": "PI3",
+        "name": "RPIR4"
+    },
+    "RDHT4": {
+        "simulated": true,
+        "pin": 17,
+        "runs_on": "PI3",
+        "name": "RDHT4"
+    },
+    "BB": {
+        "simulated": true,
+        "pin": 17,
+        "pitch": 440,
+        "duration": 0.1,
+        "runs_on": "PI3",
+        "name": "BB"
+    },
+    "BIR": {
+        "simulated": true,
+        "pin": 17,
+        "runs_on": "PI3",
+        "name": "BIR"
+    },
+    "BRGB": {
+        "simulated": true,
+        "red_pin": 17,
+        "blue_pin": 17,
+        "green_pin": 17,
+        "runs_on": "PI3",
+        "name": "BRGB"
     }
 }

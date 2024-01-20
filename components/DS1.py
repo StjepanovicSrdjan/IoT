@@ -33,7 +33,7 @@ publisher_thread.start()
 def door_callback(publish_event, settings, action):
     global publish_data_counter, publish_data_limit
     payload = {
-        "measurement": "DPIR",
+        "measurement": "DS",
         "simulated": settings['simulated'],
         "runs_on": settings["runs_on"],
         "name": settings["name"],

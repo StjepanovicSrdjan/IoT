@@ -70,5 +70,6 @@ def run_dl(settings, threads, motion_event, light_event, stop_event):
         print('Starting DL actuator')
         dl = DL(settings['pin'])
         dl_thread = threading.Thread(target=run_dl_act, args=(dl, dl_callback, light_event, stop_event, publish_event, settings))
+        dl_thread.start()
         threads.append(dl_thread)
         print('DL actuator started')
