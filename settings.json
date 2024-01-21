@@ -152,5 +152,10 @@
         "digits": [22,27,17,24],
         "runs_on": "PI3",
         "name": "B4SD"
+    },
+    "GSG": {
+        "simulated": true,
+        "runs_on": "PI2",
+        "name": "GSG"
     }
 }

@@ -19,7 +19,7 @@ def run_dl_simulator(callback, motion_event, light_event, stop_event, publish_ev
         if motion_event.is_set():
             motion_event.clear()
             callback(publish_event, settings,'ON')
-            time.sleep(3)
+            time.sleep(10)
             callback(publish_event, settings,'OFF')
             is_on = False
 

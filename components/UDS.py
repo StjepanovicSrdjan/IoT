@@ -47,11 +47,21 @@ def uds_callback(dis, publish_event, settings):
     # print(f"Timestamp: {time.strftime('%H:%M:%S', t)}")
     # print("DISTANCE: " + str(dis))
 
+def entering_callback(action, settings):
+    # payload = {
+    #     "Entrance": "PI1",
+    #     "simulated": settings['simulated'],
+    #     "runs_on": settings["runs_on"],
+    #     "name": settings["name"],
+    #     "value": action
+    #     }
+    print(action)
+    publish.single(topic="Door", payload=action, hostname=HOSTNAME, port=PORT)
 
 def run_uds(settings, threads, motion_event, stop_event):
     if settings['simulated']:
         print('Starting DUS1 simulation')
-        uds_thread = threading.Thread(target=run_uds_simulation, args=(uds_callback, motion_event, stop_event, publish_event, settings))
+        uds_thread = threading.Thread(target=run_uds_simulation, args=(uds_callback, motion_event, stop_event, publish_event, settings, entering_callback))
         uds_thread.start()
         threads.append(uds_thread)
         print('UDS simulator started')
@@ -59,7 +69,7 @@ def run_uds(settings, threads, motion_event, stop_event):
         from sensors.UDS_sen import UDS, run_uds_sen
         print('Starting DUS1 sensor')
         uds = UDS(settings['trig_pin'], settings['echo_pin'])
-        uds_thread = threading.Thread(target=run_uds_sen, args=(uds, uds_callback, stop_event, publish_event, settings))
+        uds_thread = threading.Thread(target=run_uds_sen, args=(uds, uds_callback, stop_event, publish_event, settings, entering_callback))
         uds_thread.start()
         threads.append(uds_thread)
         print('DUS1 sensor started')

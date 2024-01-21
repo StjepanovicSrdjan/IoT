@@ -7,6 +7,7 @@ from components.DS1 import run_ds
 from components.RPIR import run_rpir
 from components.UDS import run_uds
 from components.DPIR1 import run_dpir
+from components.Gyroscope import run_gyro
 
 
 from settings import load_settings
@@ -53,6 +54,7 @@ if __name__ == '__main__':
         run_dpir(settings['DPIR2'], threads, light_on_by_motion_event, motion_event, stop_event)
         run_dht(settings['DHT3'], threads, stop_event, "DHT3")
         run_uds(settings['DUS2'], threads, motion_event, stop_event)
+        run_gyro(settings['GSG'], threads, stop_event)
 
         while True:
             time.sleep(1)

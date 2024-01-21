@@ -1,9 +1,10 @@
 import RPi.GPIO as GPIO
-
+import time
 
 class DS:
     def __init__(self, pin):
         self.pin = pin
+        self.start_time = None
 
     def start_detection(self, callback, publish_event, settings):
         GPIO.setmode(GPIO.BCM)
@@ -20,9 +21,13 @@ class DS:
     def button_pressed(self, callback, publish_event, settings):
         def callback(*args, **kwargs):
             if self.get_state():
-                callback(publish_event, settings, "Door opened.")
+                self.start_time = time.time()
+                # callback(publish_event, settings, "Door opened.")
             else:
-                callback(publish_event, settings, "Door closed.")
+                if self.start_time is not None:
+                    duration = time.time() - self.start_time
+                    self.start_time = None
+                callback(publish_event, settings, "Button pressed for:" + str(duration))
 
         return callback
 

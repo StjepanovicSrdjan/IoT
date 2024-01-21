@@ -51,16 +51,16 @@ if __name__ == '__main__':
     keyboard.hook(keyboard_callback)
 
     try:
-        # run_dpir(settings['DPIR1'], threads, light_on_by_motion_event, motion_event, stop_event)
+        run_dpir(settings['DPIR1'], threads, light_on_by_motion_event, motion_event, stop_event)
         # run_rpir(settings['RPIR1'], threads, stop_event)
         # run_rpir(settings['RPIR2'], threads, stop_event)
-        # run_dl(settings['DL'], threads, light_on_by_motion_event, lighton_event, stop_event)
-        # run_uds(settings['DUS1'], threads, motion_event, stop_event)
+        run_dl(settings['DL'], threads, light_on_by_motion_event, lighton_event, stop_event)
+        run_uds(settings['DUS1'], threads, motion_event, stop_event)
         # run_ds(settings['DS1'], threads, open_event, stop_event)
         # run_db(settings['DB'], threads, buzz_event, stop_event)
         # run_dms(settings['DMS'], threads, stop_event)
-        run_dht(settings['DHT1'], threads, stop_event, "DHT1")
-        run_dht(settings['DHT2'], threads, stop_event, "DHT2")
+        # run_dht(settings['DHT1'], threads, stop_event, "DHT1")
+        # run_dht(settings['DHT2'], threads, stop_event, "DHT2")
 
         while True:
             time.sleep(1)
