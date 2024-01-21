@@ -10,6 +10,7 @@ from components.DPIR1 import run_dpir
 from components.DB import run_db
 from components.IR import run_ir
 from components.RGB import run_rgb
+from components.DigSegDisplay import run_dig
 
 from settings import load_settings
 
@@ -67,11 +68,12 @@ if __name__ == '__main__':
     keyboard.hook(keyboard_callback)
 
     try:
-        # run_rpir(settings['RPIR4'], threads, stop_event)
-        # run_dht(settings['RDHT4'], threads, stop_event, "RDHT4")
-        # run_db(settings['BB'], threads, buzz_event, stop_event)
+        run_rpir(settings['RPIR4'], threads, stop_event)
+        run_dht(settings['RDHT4'], threads, stop_event, "RDHT4")
+        run_db(settings['BB'], threads, buzz_event, stop_event)
         run_ir(settings['BIR'], threads, stop_event, ir_event, ir_queue)
         run_rgb(settings['BRGB'], threads, stop_event, ir_event, ir_queue)
+        run_dig(settings['B4SD'], threads, stop_event)
         while True:
             time.sleep(1)
     except KeyboardInterrupt:
