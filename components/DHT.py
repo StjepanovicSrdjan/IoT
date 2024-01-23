@@ -58,6 +58,8 @@ def dht_callback(humidity, temperature, publish_event, dht_settings, mess_queue)
 
 
 def run_dht(settings, threads, stop_event, name, mess_queue=None):
+    global publish_data_limit
+    publish_data_limit = settings['batch_size']
     if settings['simulated']:
         print(f"Starting {name} simulator")
         dht1_thread = threading.Thread(target=run_dht_simulator, args=(2, dht_callback, stop_event, publish_event, settings, mess_queue))

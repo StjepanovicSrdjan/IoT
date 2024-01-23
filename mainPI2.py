@@ -3,7 +3,7 @@ import time
 from queue import Queue 
 from components.DHT import run_dht
 from components.DS1 import run_ds
-# from components.LCD import run_lcd
+from components.LCD import run_lcd
 from components.RPIR import run_rpir
 from components.UDS import run_uds
 from components.DPIR1 import run_dpir
@@ -49,7 +49,7 @@ if __name__ == '__main__':
     try:
         run_dht(settings['GDHT'], threads, stop_event, "GDHT", lcd_queue)
         run_ds(settings['DS2'], threads, open_event, stop_event)
-        # run_ds(settings['GLCD'], threads, stop_event, lcd_queue)
+        run_lcd(settings['GLCD'], threads, stop_event, lcd_queue)
         run_rpir(settings['RPIR3'], threads, stop_event)
         run_dpir(settings['DPIR2'], threads, light_on_by_motion_event, motion_event, stop_event)
         run_dht(settings['DHT3'], threads, stop_event, "DHT3")

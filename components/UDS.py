@@ -7,7 +7,7 @@ from broker_settings import HOSTNAME, PORT
 
 uds_batch = []
 publish_data_counter = 0
-publish_data_limit = 5
+publish_data_limit = 1
 counter_lock = threading.Lock()
 
 def publisher_task(event, batch):
@@ -59,6 +59,8 @@ def entering_callback(action, settings):
     publish.single(topic="Door", payload=action, hostname=HOSTNAME, port=PORT)
 
 def run_uds(settings, threads, motion_event, stop_event):
+    global publish_data_limit
+    publish_data_limit = settings['batch_size']
     if settings['simulated']:
         print('Starting DUS1 simulation')
         uds_thread = threading.Thread(target=run_uds_simulation, args=(uds_callback, motion_event, stop_event, publish_event, settings, entering_callback))
