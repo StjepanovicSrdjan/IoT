@@ -7,21 +7,57 @@
 
 <body>
 
-{% for device_name in devices_config %}
-    {% for measurement_name in devices_config[device_name] %}
-        <-- ce4defda-9ceb-46fd-8d4e-50cb2e58b8d8 -->
-        <iframe
-                src="http://localhost:3000/d-solo/{{ devices_config[device_name][measurement_name].grafana_id }}/alex-home?orgId=1&theme=light&panelId=2&from=now-24s&to=now&refresh=5s"
-                width="450" height="200" frameborder="0"></iframe>
+<div class="main">
+    {% for device_name in devices_config %}
+        <div class="device">
+            <h2>{{ device_name }}</h2>
+            <div class="measurements">
+                {% for measurement_name in devices_config[device_name] %}
+                    <h3>{{ measurement_name }}</h3>
+                    <p>
+                        Current state:
+                        <span id="{{ device_name }}_{{ measurement_name }}">
+                            No data
+                        </span>
+                    </p>
+                    {% if devices_config[device_name][measurement_name].grafana_id is defined %}
+                        <iframe src="http://localhost:3000/d-solo/{{ devices_config[device_name][measurement_name].grafana_id }}/alex-home?orgId=1&theme=light&panelId=2&from=now-24s&to=now&refresh=5s"
+                                width="450" height="200" frameborder="0"></iframe>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
     {% endfor %}
-{% endfor %}
+</div>
 
 
 
 
 
 <script>
+    const config = {{ devices_config | tojson }};
+    const API_URL = 'http://localhost:5000';
+    const ALARM_URL = 'http://localhost:5000/static/alarm-sound.mp3';
 
+    console.log(config)
+
+    setInterval(() => {
+        fetch(API_URL + '/api/last')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                for (let value of data.data) {
+                    const element = document.getElementById(value["name"] + '_' + value["_measurement"]);
+                    if (element) {
+                        const measurementFormat = config[value["name"]][value["_measurement"]]["measurement_format"];
+                        element.innerHTML = measurementFormat.replace('%s', value["_value"]);
+                    }
+                }
+            });
+    }, 5000);
+
+    // new Audio(ALARM_URL).play()
 </script>
 </body>
 

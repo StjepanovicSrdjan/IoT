@@ -7,7 +7,7 @@ def run_ds_simulator(callback, open_event, stop_event, publish_event, settings):
         time.sleep(1)
         if random.random() > 0.7:
             duration = random.uniform(1.0 , 7.0 )
-            callback(publish_event, settings, "Button pressed for:" + str(duration))
+            callback(publish_event, settings, duration)
             # time.sleep(2)
             # callback(publish_event, settings, "Door closed.")
 

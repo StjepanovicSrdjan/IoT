@@ -19,7 +19,7 @@ class DS:
         return GPIO.input(self.pin) == GPIO.LOW
 
     def button_pressed(self, callback, publish_event, settings):
-        def callback(*args, **kwargs):
+        def _callback(*args, **kwargs):
             if self.get_state():
                 self.start_time = time.time()
                 # callback(publish_event, settings, "Door opened.")
@@ -27,9 +27,9 @@ class DS:
                 if self.start_time is not None:
                     duration = time.time() - self.start_time
                     self.start_time = None
-                callback(publish_event, settings, "Button pressed for:" + str(duration))
+                    callback(publish_event, settings, duration)
 
-        return callback
+        return _callback
 
     def __del__(self):
         GPIO.cleanup()

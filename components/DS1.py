@@ -33,14 +33,14 @@ publisher_thread.start()
 def door_callback(publish_event, settings, action):
     global publish_data_counter, publish_data_limit
     payload = {
-        "measurement": "DS",
+        "measurement": "DS_LEN",
         "simulated": settings['simulated'],
         "runs_on": settings["runs_on"],
         "name": settings["name"],
         "value": action
         }
     with counter_lock:
-        ds_batch.append(('DS', json.dumps(payload), 0, True))
+        ds_batch.append(('DS_LEN', json.dumps(payload), 0, True))
         publish_data_counter += 1
 
     if publish_data_counter >= publish_data_limit:
@@ -48,7 +48,7 @@ def door_callback(publish_event, settings, action):
     t = time.localtime()
     print('='*20)
     print(f"Timestamp: {time.strftime('%H:%M:%S', t)}")
-    print("DOOR " + action + "!")
+    print("DOOR button pressed" + str(action)+ "!")
 
 
 
