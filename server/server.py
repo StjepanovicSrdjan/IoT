@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 from influxdb_client import InfluxDBClient, Point
 from influxdb_client.client.write_api import SYNCHRONOUS
 import paho.mqtt.client as mqtt
@@ -6,6 +6,10 @@ import json
 
 
 app = Flask(__name__)
+
+
+with open('./settings.json') as json_file:
+    config = json.load(json_file)
 
 
 # InfluxDB Configuration
@@ -51,9 +55,33 @@ def save_to_db(data):
     write_api.write(bucket=bucket, org=org, record=point)
 
 
+GET_LAST_DATA = """
+from(bucket: "example_db")
+  |> range(start: -1h)
+  |> tail(n: 1)
+"""
+
+
+def handle_influx_query(query):
+    query_api = influxdb_client.query_api()
+    tables = query_api.query(query, org=org)
+
+    container = []
+    for table in tables:
+        for record in table.records:
+            container.append(record.values)
+
+    return jsonify({"status": "success", "data": container})
+
+
 @app.route('/', methods=['GET'])
 def index():
-    return app.send_static_file('index.html')
+    return render_template('index.html', devices_config=config)
+
+
+@app.route('/api/last', methods=['GET'])
+def get_last():
+    return handle_influx_query(GET_LAST_DATA)
 
 
 if __name__ == '__main__':

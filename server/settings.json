@@ -1,0 +1,8 @@
+{
+    "DHT1": {
+        "Temperature": {
+            "measurement_format": "%s ºC",
+            "grafana_id": "ce4defda-9ceb-46fd-8d4e-50cb2e58b8d8"
+        }
+    }
+}
