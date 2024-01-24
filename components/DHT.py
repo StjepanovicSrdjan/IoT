@@ -70,7 +70,7 @@ def run_dht(settings, threads, stop_event, name, mess_queue=None):
         from sensors.DHT_sen import run_dht_loop, DHT
         print(f"Starting {name} loop")
         dht = DHT(settings['pin'])
-        dht1_thread = threading.Thread(target=run_dht_loop, args=(dht, 2, dht_callback, stop_event, publish_event, settings))
+        dht1_thread = threading.Thread(target=run_dht_loop, args=(dht, 2, dht_callback, stop_event, publish_event, settings, mess_queue))
         dht1_thread.start()
         threads.append(dht1_thread)
         print(f"{name} loop started")
