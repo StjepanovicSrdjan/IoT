@@ -37,6 +37,7 @@ def on_connect(client, userdata, flags, rc):
     client.subscribe("DMS")
     client.subscribe("DS_LEN")
     client.subscribe("PIR")
+    client.subscribe("Gyroscope")
     print("Connected to MQTT broker")
 
 
