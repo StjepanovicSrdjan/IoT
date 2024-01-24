@@ -45,6 +45,8 @@ def rgb_callback(publish_event, action, settings):
         publish_event.set()
 
 def run_rgb(settings, threads, stop_event, ir_event, mess_queue):
+    global publish_data_limit
+    publish_data_limit = settings['batch_size']
     if settings['simulated']:
         print('Starting RGB simulation')
         rgb_thread = threading.Thread(target=run_rgb_simulator, args=(rgb_callback, settings, stop_event, ir_event, mess_queue, publish_event))

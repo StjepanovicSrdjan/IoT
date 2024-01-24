@@ -51,6 +51,8 @@ def dpir_callback(light_on_event, publish_event, settings):
 
 
 def run_dpir(settings, threads, light_on_event, motion_event, stop_event):
+    global publish_data_limit
+    publish_data_limit = settings['batch_size']
     if settings['simulated']:
         print('Starting DPIR1 simulation')
         dpir1_thread = threading.Thread(target = run_dpir_simulator, args=(dpir_callback, light_on_event, motion_event, stop_event, publish_event, settings))

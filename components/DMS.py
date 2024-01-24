@@ -51,6 +51,8 @@ def char_input_callback(c, publish_event, settings):
 
 
 def run_dms(settings, threads, stop_event):
+    global publish_data_limit
+    publish_data_limit = settings['batch_size']
     if settings['simulated']:
         print('Starting DMS simulation')
         ds_thread = threading.Thread(

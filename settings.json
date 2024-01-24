@@ -3,38 +3,44 @@
         "simulated": true,
         "pin": 17,
         "runs_on": "PI1",
-        "name": "DS1"
+        "name": "DS1",
+        "batch_size": 1
     },
     "DPIR1": {
         "simulated": true,
         "pin": 17,
         "runs_on": "PI1",
-        "name": "DPIR1"
+        "name": "DPIR1",
+        "batch_size": 5
     },
     "RPIR1": {
         "simulated": true,
         "pin": 17,
         "runs_on": "PI1",
-        "name": "RPIR1"
+        "name": "RPIR1",
+        "batch_size": 1
     },
     "RPIR2": {
         "simulated": true,
         "pin": 17,
         "runs_on": "PI1",
-        "name": "RPIR2"
+        "name": "RPIR2",
+        "batch_size": 1
     },
     "DL": {
         "simulated": true,
         "pin": 18,
         "runs_on": "PI1",
-        "name": "DL"
+        "name": "DL",
+        "batch_size": 5
     },
     "DUS1": {
         "simulated": true,
         "trig_pin": 18,
         "echo_pin": 18,
         "runs_on": "PI1",
-        "name": "DUS1"
+        "name": "DUS1",
+        "batch_size": 1
     },
     "DB": {
         "simulated": true,
@@ -42,7 +48,8 @@
         "pitch": 440,
         "duration": 0.1,
         "runs_on": "PI1",
-        "name": "DB"
+        "name": "DB",
+        "batch_size": 5
     },
     "DMS": {
         "simulated": true,
@@ -55,74 +62,86 @@
         "C3": 20,
         "C4": 21,
         "runs_on": "PI1",
-        "name": "DMS"
+        "name": "DMS",
+        "batch_size": 1
     },
     "DHT1": {
         "simulated": true,
         "pin": 17,
         "runs_on": "PI1",
-        "name": "DHT1"
+        "name": "DHT1",
+        "batch_size": 5
     },
     "DHT2": {
         "simulated": true,
         "pin": 17,
         "runs_on": "PI1",
-        "name": "DHT2"
+        "name": "DHT2",
+        "batch_size": 5
     },
     "GDHT": {
         "simulated": true,
         "pin": 17,
         "runs_on": "PI2",
-        "name": "GDHT"
+        "name": "GDHT",
+        "batch_size": 5
     },
     "GLCD": {
         "isOn": false,
         "pin": 17,
         "runs_on": "PI2",
-        "name": "GLCD"
+        "name": "GLCD",
+        "batch_size": 5
     },
     "DS2": {
         "simulated": true,
         "pin": 17,
         "runs_on": "PI2",
-        "name": "DS2"
+        "name": "DS2",
+        "batch_size": 1
     },
     "DPIR2": {
         "simulated": true,
         "pin": 17,
         "runs_on": "PI2",
-        "name": "DPIR2"
+        "name": "DPIR2",
+        "batch_size": 5
     },
     "RPIR3": {
         "simulated": true,
         "pin": 17,
         "runs_on": "PI2",
-        "name": "RPIR3"
+        "name": "RPIR3",
+        "batch_size": 1
     },
     "DHT3": {
         "simulated": true,
         "pin": 17,
         "runs_on": "PI2",
-        "name": "DHT3"
+        "name": "DHT3",
+        "batch_size": 5
     },
     "DUS2": {
         "simulated": true,
         "trig_pin": 18,
         "echo_pin": 18,
         "runs_on": "PI2",
-        "name": "DUS2"
+        "name": "DUS2",
+        "batch_size": 1
     },
     "RPIR4": {
         "simulated": true,
         "pin": 17,
         "runs_on": "PI3",
-        "name": "RPIR4"
+        "name": "RPIR4",
+        "batch_size": 1
     },
     "RDHT4": {
         "simulated": true,
         "pin": 17,
         "runs_on": "PI3",
-        "name": "RDHT4"
+        "name": "RDHT4",
+        "batch_size": 5
     },
     "BB": {
         "simulated": true,
@@ -130,13 +149,15 @@
         "pitch": 440,
         "duration": 0.1,
         "runs_on": "PI3",
-        "name": "BB"
+        "name": "BB",
+        "batch_size": 5
     },
     "BIR": {
         "simulated": true,
         "pin": 17,
         "runs_on": "PI3",
-        "name": "BIR"
+        "name": "BIR",
+        "batch_size": 5
     },
     "BRGB": {
         "simulated": true,
@@ -144,18 +165,21 @@
         "blue_pin": 17,
         "green_pin": 17,
         "runs_on": "PI3",
-        "name": "BRGB"
+        "name": "BRGB",
+        "batch_size": 5
     },
     "B4SD": {
         "isOn": false,
         "segments": [11,4,23,8,7,10,18,25],
         "digits": [22,27,17,24],
         "runs_on": "PI3",
-        "name": "B4SD"
+        "name": "B4SD",
+        "batch_size": 5
     },
     "GSG": {
         "simulated": true,
         "runs_on": "PI2",
-        "name": "GSG"
+        "name": "GSG",
+        "batch_size": 5
     }
 }

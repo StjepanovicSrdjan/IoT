@@ -46,6 +46,8 @@ def db_callback(publish_event, settings):
 
 
 def run_db(settings, threads, buzz_event, stop_event):
+    global publish_data_limit
+    publish_data_limit = settings['batch_size']
     if settings['simulated']:
         print('Starting DB simulation')
         dl_thread = threading.Thread(target=run_db_simulator, args=(db_callback, buzz_event, stop_event, publish_event, settings))

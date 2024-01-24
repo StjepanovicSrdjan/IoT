@@ -48,6 +48,8 @@ def gyro_callback( value, publish_event, settings):
 
 
 def run_gyro(settings, threads, stop_event):
+    global publish_data_limit
+    publish_data_limit = settings['batch_size']
     if settings['simulated']:
         print('Starting Gyroscope simulation')
         gyroSim = GyroscopeSimulator()

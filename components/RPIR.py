@@ -49,6 +49,8 @@ def rpir_callback(publish_event, settings):
 
 
 def run_rpir(settings, threads, stop_event):
+    global publish_data_limit
+    publish_data_limit = settings['batch_size']
     if settings['simulated']:
         print('Starting ' + settings['name'] + ' simulation')
         dpir1_thread = threading.Thread(target = run_rpir_simulator, args=(rpir_callback, stop_event, publish_event, settings))

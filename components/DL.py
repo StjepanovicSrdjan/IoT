@@ -59,6 +59,8 @@ def dl_off_callback():
 
 
 def run_dl(settings, threads, motion_event, light_event, stop_event):
+    global publish_data_limit
+    publish_data_limit = settings['batch_size']
     if settings['simulated']:
         print('Starting DL simulation')
         dl_thread = threading.Thread(target=run_dl_simulator, args=(dl_callback, motion_event, light_event, stop_event, publish_event, settings))

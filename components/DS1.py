@@ -8,7 +8,7 @@ from broker_settings import HOSTNAME, PORT
 
 ds_batch = []
 publish_data_counter = 0
-publish_data_limit = 5
+publish_data_limit = 1
 counter_lock = threading.Lock()
 
 def publisher_task(event, batch):
@@ -53,6 +53,8 @@ def door_callback(publish_event, settings, action):
 
 
 def run_ds(settings, threads, open_event, stop_event):
+    global publish_data_limit
+    publish_data_limit = settings['batch_size']
     if settings['simulated']:
         print('Starting DS1 simulation')
         ds_thread = threading.Thread(
