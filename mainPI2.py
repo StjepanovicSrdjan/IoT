@@ -39,6 +39,7 @@ if __name__ == '__main__':
     stop_event = threading.Event()
     open_event = threading.Event()
     motion_event = threading.Event()
+    lcd_event = threading.Event()
     light_on_by_motion_event = threading.Event()
 
 
@@ -47,9 +48,9 @@ if __name__ == '__main__':
     keyboard.hook(keyboard_callback)
     lcd_queue = Queue()
     try:
-        run_dht(settings['GDHT'], threads, stop_event, "GDHT", lcd_queue)
+        run_dht(settings['GDHT'], threads, stop_event, "GDHT", lcd_queue, lcd_event)
         run_ds(settings['DS2'], threads, open_event, stop_event)
-        run_lcd(settings['GLCD'], threads, stop_event, lcd_queue)
+        run_lcd(settings['GLCD'], threads, stop_event, lcd_queue, lcd_event)
         run_rpir(settings['RPIR3'], threads, stop_event)
         run_dpir(settings['DPIR2'], threads, light_on_by_motion_event, motion_event, stop_event)
         run_dht(settings['DHT3'], threads, stop_event, "DHT3")

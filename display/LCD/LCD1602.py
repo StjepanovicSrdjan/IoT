@@ -51,7 +51,7 @@ lcd = Adafruit_CharLCD(pin_rs=0, pin_e=2, pins_db=[4,5,6,7], GPIO=mcp)
 #     except KeyboardInterrupt:
 #         destroy()
 
-def run(stop_event, settings, mess_queue):
+def run(stop_event, settings, mess_queue, lcd_event):
     try:
         mcp = PCF8574_GPIO(PCF8574_address)
     except:
@@ -61,16 +61,18 @@ def run(stop_event, settings, mess_queue):
             print ('I2C Address Error !')
             exit(1)
 # Create LCD, passing in MCP GPIO adapter.
-    lcd = Adafruit_CharLCD(pin_rs=0, pin_e=2, pins_db=[4,5,6,7], GPIO=mcp)
+    lcd = Adafruit_CharLCD(pin_rs=settings['pin_rs'], pin_e=settings['pin_e'], pins_db=settings['pins_db'], GPIO=mcp)
      
     mcp.output(3,1)     # turn on LCD backlight
     lcd.begin(16,2)     # set number of LCD lines and columns
     while(True):         
         #lcd.clear()
-        data = mess_queue.get()
-        lcd.setCursor(0,0)  # set cursor position
-        lcd.message( 'Temp: ' + data[0] +'\n' )# display CPU temperature
-        lcd.message( 'Hum:' + data[1] )   # display the time
+        if lcd_event.is_set():
+            data = mess_queue.get()
+            lcd.setCursor(0,0)  # set cursor position
+            lcd.message( 'Temp: ' + str(data[0]) +'\n' )# display CPU temperature
+            lcd.message( 'Hum:' + str(data[1]) )   # display the time
+            lcd_event.clear()
         sleep(1)
         if stop_event:
             destroy()
