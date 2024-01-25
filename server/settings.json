@@ -1,8 +1,144 @@
 {
+    "DL": {
+        "DL": {
+            "measurement_format": "%s"
+        }
+    },
     "DHT1": {
         "Temperature": {
             "measurement_format": "%s ºC",
-            "grafana_id": "ce4defda-9ceb-46fd-8d4e-50cb2e58b8d8"
+            "grafana_id": "ce4defda-9ceb-46fd-8d4e-50cb2e58b8d8",
+            "panel_id": 2
+        },
+        "Humidity": {
+            "measurement_format": "%s %",
+            "grafana_id": "ce4defda-9ceb-46fd-8d4e-50cb2e58b8d8",
+            "panel_id": 3
+        }
+    },
+    "DS1": {
+        "DS_LEN": {
+            "measurement_format": "%s sec",
+            "grafana_id": "ce4defda-9ceb-46fd-8d4e-50cb2e58b8d8",
+            "panel_id": 6
+        }
+    },
+    "DS2": {
+        "DS_LEN": {
+            "measurement_format": "%s sec",
+            "grafana_id": "ce4defda-9ceb-46fd-8d4e-50cb2e58b8d8",
+            "panel_id": 6
+        }
+    },
+    "DHT2": {
+        "Temperature": {
+            "measurement_format": "%s ºC",
+            "grafana_id": "ce4defda-9ceb-46fd-8d4e-50cb2e58b8d8",
+            "panel_id": 2
+        },
+        "Humidity": {
+            "measurement_format": "%s %",
+            "grafana_id": "ce4defda-9ceb-46fd-8d4e-50cb2e58b8d8",
+            "panel_id": 3
+        }
+    },
+    "DHT3": {
+        "Temperature": {
+            "measurement_format": "%s ºC",
+            "grafana_id": "ce4defda-9ceb-46fd-8d4e-50cb2e58b8d8",
+            "panel_id": 2
+        },
+        "Humidity": {
+            "measurement_format": "%s %",
+            "grafana_id": "ce4defda-9ceb-46fd-8d4e-50cb2e58b8d8",
+            "panel_id": 3
+        }
+    },
+    "GDHT": {
+        "Temperature": {
+            "measurement_format": "%s ºC",
+            "grafana_id": "ce4defda-9ceb-46fd-8d4e-50cb2e58b8d8",
+            "panel_id": 2
+        },
+        "Humidity": {
+            "measurement_format": "%s %",
+            "grafana_id": "ce4defda-9ceb-46fd-8d4e-50cb2e58b8d8",
+            "panel_id": 3
+        }
+    },
+    "RDHT4": {
+        "Temperature": {
+            "measurement_format": "%s ºC",
+            "grafana_id": "ce4defda-9ceb-46fd-8d4e-50cb2e58b8d8",
+            "panel_id": 2
+        },
+        "Humidity": {
+            "measurement_format": "%s %",
+            "grafana_id": "ce4defda-9ceb-46fd-8d4e-50cb2e58b8d8",
+            "panel_id": 3
+        }
+    },
+    "DMS": {
+        "DMS": {
+            "measurement_format": "Last key was %s",
+            "grafana_id": "ce4defda-9ceb-46fd-8d4e-50cb2e58b8d8",
+            "panel_id": 7
+        }
+    },
+    "DPIR1": {
+        "PIR": {
+            "measurement_format": "See the plot",
+            "grafana_id": "ce4defda-9ceb-46fd-8d4e-50cb2e58b8d8",
+            "panel_id": 4
+        }
+    },
+    "DPIR2": {
+        "PIR": {
+            "measurement_format": "See the plot",
+            "grafana_id": "ce4defda-9ceb-46fd-8d4e-50cb2e58b8d8",
+            "panel_id": 4
+        }
+    },
+    "RPIR1": {
+        "PIR": {
+            "measurement_format": "See the plot",
+            "grafana_id": "ce4defda-9ceb-46fd-8d4e-50cb2e58b8d8",
+            "panel_id": 4
+        }
+    },
+    "RPIR2": {
+        "PIR": {
+            "measurement_format": "See the plot",
+            "grafana_id": "ce4defda-9ceb-46fd-8d4e-50cb2e58b8d8",
+            "panel_id": 4
+        }
+    },
+    "RPIR3": {
+        "PIR": {
+            "measurement_format": "See the plot",
+            "grafana_id": "ce4defda-9ceb-46fd-8d4e-50cb2e58b8d8",
+            "panel_id": 4
+        }
+    },
+    "RPIR4": {
+        "PIR": {
+            "measurement_format": "See the plot",
+            "grafana_id": "ce4defda-9ceb-46fd-8d4e-50cb2e58b8d8",
+            "panel_id": 4
+        }
+    },
+    "DUS1": {
+        "UDS": {
+            "measurement_format": "%s m",
+            "grafana_id": "ce4defda-9ceb-46fd-8d4e-50cb2e58b8d8",
+            "panel_id": 5
+        }
+    },
+    "DUS2": {
+        "UDS": {
+            "measurement_format": "%s m",
+            "grafana_id": "ce4defda-9ceb-46fd-8d4e-50cb2e58b8d8",
+            "panel_id": 5
         }
     }
 }

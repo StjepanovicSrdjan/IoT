@@ -95,7 +95,7 @@ def run_dht_loop(dht, delay, callback, stop_event, publish_event, settings, mess
         check = dht.readDHT11()
         code = parseCheckCode(check)
         humidity, temperature = dht.humidity, dht.temperature
-        callback(humidity, temperature, publish_event, settings, mess_queue, lcd_event)
+        callback(int(humidity), int(temperature), publish_event, settings, mess_queue, lcd_event)
         if stop_event.is_set():
             break
         time.sleep(delay)  # Delay between readings

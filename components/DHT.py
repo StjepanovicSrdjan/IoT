@@ -29,6 +29,7 @@ publisher_thread.start()
 
 
 def dht_callback(humidity, temperature, publish_event, dht_settings, mess_queue, lcd_event):
+    print(mess_queue)
     if mess_queue:
         lcd_event.set()
         mess_queue.put([temperature, humidity])

@@ -80,14 +80,14 @@
         "batch_size": 5
     },
     "GDHT": {
-        "simulated": true,
+        "simulated": false,
         "pin": 17,
         "runs_on": "PI2",
         "name": "GDHT",
         "batch_size": 5
     },
     "GLCD": {
-        "isOn": false,
+        "isOn": true,
         "pin_rs": 17,
         "pin_e": 17,
         "pins_db": [4,5,6,7],

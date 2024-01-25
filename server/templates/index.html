@@ -65,7 +65,7 @@
                         </span>
                     </p>
                     {% if devices_config[device_name][measurement_name].grafana_id is defined %}
-                        <iframe src="http://localhost:3000/d-solo/{{ devices_config[device_name][measurement_name].grafana_id }}/alex-home?orgId=1&theme=light&panelId=2&from=now-24s&to=now&refresh=5s"
+                        <iframe src="http://localhost:3000/d-solo/{{ devices_config[device_name][measurement_name].grafana_id }}/alex-home?orgId=1&theme=light&panelId={{ devices_config[device_name][measurement_name].panel_id }}&from=now-24s&to=now&refresh=5s"
                                 width="450" height="200" frameborder="0"></iframe>
                     {% endif %}
                 {% endfor %}

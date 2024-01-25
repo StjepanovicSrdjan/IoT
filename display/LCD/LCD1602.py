@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from PCF8574 import PCF8574_GPIO
+from display.LCD.PCF8574 import PCF8574_GPIO
 from Adafruit_LCD1602 import Adafruit_CharLCD
 
 from time import sleep, strftime
@@ -42,7 +42,7 @@ except:
 		print ('I2C Address Error !')
 		exit(1)
 # Create LCD, passing in MCP GPIO adapter.
-lcd = Adafruit_CharLCD(pin_rs=0, pin_e=2, pins_db=[4,5,6,7], GPIO=mcp)
+# lcd = Adafruit_CharLCD(pin_rs=0, pin_e=2, pins_db=[4,5,6,7], GPIO=mcp)
 
 # if __name__ == '__main__':
 #     print ('Program is starting ... ')
@@ -69,6 +69,7 @@ def run(stop_event, settings, mess_queue, lcd_event):
         #lcd.clear()
         if lcd_event.is_set():
             data = mess_queue.get()
+
             lcd.setCursor(0,0)  # set cursor position
             lcd.message( 'Temp: ' + str(data[0]) +'\n' )# display CPU temperature
             lcd.message( 'Hum:' + str(data[1]) )   # display the time
