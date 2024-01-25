@@ -21,6 +21,9 @@ bucket = "example_db"
 influxdb_client = InfluxDBClient(url=url, token=token, org=org)
 last_alarm_reset = datetime.datetime.utcnow()
 alarm_state = False
+CODE = [1, 2, 3, 4]
+last_digits = []
+security = False
 
 # MQTT Configuration
 mqtt_client = mqtt.Client()
@@ -45,7 +48,21 @@ mqtt_client.on_connect = on_connect
 mqtt_client.on_message = lambda client, userdata, msg: save_to_db(json.loads(msg.payload.decode('utf-8')))
 
 
+def check_password(data):
+    global last_alarm_reset, alarm_state, last_digits, security
+    if data["measurement"] == "DMS":
+        last_digits.append(data["value"])
+        last_digits = last_digits[-4:]
+        print('Comparing code: ', last_digits, ' with ', CODE)
+        if last_digits == CODE:
+            last_alarm_reset = datetime.datetime.utcnow()
+            alarm_state = False
+            save_alarm_to_db("Correct code entered", False)
+            security = not security
+
+
 def save_to_db(data):
+    check_password(data)
     print("Saving to DB")
     write_api = influxdb_client.write_api(write_options=SYNCHRONOUS)
     point = (
