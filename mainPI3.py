@@ -1,3 +1,4 @@
+import json
 import threading
 import time
 from queue import Queue 
@@ -11,6 +12,7 @@ from components.DB import run_db
 from components.IR import run_ir
 from components.RGB import run_rgb
 from components.DigSegDisplay import run_dig
+import paho.mqtt.client as mqtt
 
 from settings import load_settings
 
@@ -58,6 +60,7 @@ if __name__ == '__main__':
     open_event = threading.Event()
     motion_event = threading.Event()
     buzz_event = threading.Event()
+    screen_event = threading.Event()
     ir_event = threading.Event()
     light_on_by_motion_event = threading.Event()
 
@@ -73,7 +76,25 @@ if __name__ == '__main__':
         run_db(settings['BB'], threads, buzz_event, stop_event)
         run_ir(settings['BIR'], threads, stop_event, ir_event, ir_queue)
         run_rgb(settings['BRGB'], threads, stop_event, ir_event, ir_queue)
-        run_dig(settings['B4SD'], threads, stop_event)
+        run_dig(settings['B4SD'], threads, stop_event, screen_event)
+
+        # MQTT Configuration
+        mqtt_client = mqtt.Client()
+        mqtt_client.connect("localhost", 1883, 60)
+        mqtt_client.loop_start()
+
+        def on_connect(client, userdata, flags, rc):
+            client.subscribe("WAKE_UP")
+            print("Connected to MQTT broker")
+
+        def wake_up_call():
+            print("WAKE UP CALL")
+            buzz_event.set()
+            screen_event.set()
+
+        mqtt_client.on_connect = on_connect
+        mqtt_client.on_message = lambda client, userdata, msg: wake_up_call()
+
         while True:
             time.sleep(1)
     except KeyboardInterrupt:

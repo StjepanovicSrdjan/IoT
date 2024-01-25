@@ -27,6 +27,7 @@ publisher_thread = threading.Thread(target=publisher_task, args=(publish_event, 
 publisher_thread.daemon = True
 publisher_thread.start()
 
+
 def uds_callback(dis, publish_event, settings):
     global publish_data_counter, publish_data_limit
     payload = {
@@ -47,16 +48,25 @@ def uds_callback(dis, publish_event, settings):
     # print(f"Timestamp: {time.strftime('%H:%M:%S', t)}")
     # print("DISTANCE: " + str(dis))
 
+
 def entering_callback(action, settings):
-    # payload = {
-    #     "Entrance": "PI1",
-    #     "simulated": settings['simulated'],
-    #     "runs_on": settings["runs_on"],
-    #     "name": settings["name"],
-    #     "value": action
-    #     }
+    global publish_data_counter, publish_data_limit
+
+    payload = {
+        "measurement": "UDS_ENTER",
+        "simulated": settings['simulated'],
+        "runs_on": settings["runs_on"],
+        "name": settings["name"],
+        "value": action
+    }
     print(action)
-    publish.single(topic="Door", payload=action, hostname=HOSTNAME, port=PORT)
+    with counter_lock:
+        uds_batch.append(('UDS', json.dumps(payload), 0, True))
+        publish_data_counter += 1
+
+    if publish_data_counter >= publish_data_limit:
+        publish_event.set()
+
 
 def run_uds(settings, threads, motion_event, stop_event):
     global publish_data_limit

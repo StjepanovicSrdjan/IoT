@@ -17,6 +17,41 @@
         </button>
     </div>
 
+    <div class="security">
+        <button
+                value="Security on"
+                onclick="fetch('http://localhost:5000/api/security/on', {method: 'POST'})"
+                id="security-on-btn"
+        >
+            Security on
+        </button>
+        <button
+                value="Security off"
+                onclick="fetch('http://localhost:5000/api/security/off', {method: 'POST'})"
+                id="security-off-btn"
+        >
+            Security off
+        </button>
+        <div>
+            People in the house: <span id="people">0</span>
+        </div>
+    </div>
+
+    <dev class="wake-up">
+        <label for="appt">Choose a time for wake up call:</label>
+        <input type="datetime-local" id="appt" name="appt"/>
+        <button id="wake-up-set-btn" value="Set wake up call" onclick="setWakeUpTime()">
+            Set wake up call
+        </button>
+        <button
+                value="Remove wake up call"
+                onclick="removeWakeUpTime()"
+                id="wake-up-off-btn"
+        >
+            Remove wake up call
+        </button>
+    </dev>
+
     {% for device_name in devices_config %}
         <div class="device">
             <h2>{{ device_name }}</h2>
@@ -93,6 +128,46 @@
                 }
             });
     }, 1000)
+
+    setInterval(()=>{
+        fetch(API_URL + '/api/security')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                if (data["security"]) {
+                    document.getElementById('security-on-btn').style.visibility = 'hidden';
+                    document.getElementById('security-off-btn').style.visibility = 'visible';
+                } else {
+                    document.getElementById('security-on-btn').style.visibility = 'visible';
+                    document.getElementById('security-off-btn').style.visibility = 'hidden';
+                }
+            });
+    }, 1000)
+
+    setInterval(()=>{
+        fetch(API_URL + '/api/people')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                document.getElementById('people').innerHTML = data["people"];
+            });
+    }, 2000)
+
+    function setWakeUpTime() {
+        let time = document.getElementById('appt').value;
+        fetch(API_URL + '/api/wake-up-time', {
+            method: 'POST',
+            body: JSON.stringify({time: time}),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+    }
+
+    function removeWakeUpTime() {
+        fetch('http://localhost:5000/api/security/wake-up-time/off', {method: 'POST'})
+        document.getElementById('appt').value = '';
+    }
 </script>
 </body>
 
@@ -109,6 +184,7 @@ body {
 }
 .main {
     width: 80%;
+    background-color: white;
 }
 </style>
 

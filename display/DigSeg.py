@@ -48,7 +48,7 @@ num = {' ':(0,0,0,0,0,0,0),
 #     GPIO.cleanup()
 
 
-def run_4dig_dis(settings, stop_event):
+def run_4dig_dis(settings, stop_event, screen_event):
     GPIO.setmode(GPIO.BCM)
 
     segments = settings['segments']
