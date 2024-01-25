@@ -8,6 +8,15 @@
 <body>
 
 <div class="main">
+    <div class="alarm">
+        <button
+                id="alarm-btn" value="Reset alarm"
+                onclick="fetch('http://localhost:5000/api/alarm/off', {method: 'POST'})"
+        >
+            Reset alarm
+        </button>
+    </div>
+
     {% for device_name in devices_config %}
         <div class="device">
             <h2>{{ device_name }}</h2>
@@ -38,7 +47,7 @@
 <script>
     const config = {{ devices_config | tojson }};
     const API_URL = 'http://localhost:5000';
-    const ALARM_URL = 'http://localhost:5000/static/alarm-sound.mp3';
+    const ALARM_SOUND_URL = 'http://localhost:5000/static/alarm-sound.mp3';
 
     console.log(config)
 
@@ -57,12 +66,50 @@
             });
     }, 5000);
 
-    // new Audio(ALARM_URL).play()
+    var alarm = false;
+    var sound = false;
+    const alarmBtn = document.getElementById('alarm-btn');
+    const body = document.getElementsByTagName('body')[0];
+    alarmBtn.style.visibility = 'hidden';
+
+    setInterval(()=>{
+        fetch(API_URL + '/api/alarm')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                if (data["alarm"] && !alarm) {
+                    alarm = true;
+                    sound = new Audio(ALARM_SOUND_URL)
+                    sound.play()
+                    alarmBtn.style.visibility = 'visible';
+                    body.style.backgroundColor = 'red';
+                }
+                if (!data["alarm"] && alarm) {
+                    alarm = false;
+                    sound.pause()
+                    sound.currentTime = 0;
+                    alarmBtn.style.visibility = 'hidden';
+                    body.style.backgroundColor = '#F1F1F1';
+                }
+            });
+    }, 1000)
 </script>
 </body>
 
 <style>
-
+body {
+    background-color: #F1F1F1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 10vh;
+    width: 100%;
+    overflow-x: hidden;
+}
+.main {
+    width: 80%;
+}
 </style>
 
 </html>

@@ -20,10 +20,12 @@ url = "http://localhost:8086"
 bucket = "example_db"
 influxdb_client = InfluxDBClient(url=url, token=token, org=org)
 last_alarm_reset = datetime.datetime.utcnow()
-alarm_state = False
+alarm_door_stuck = False
 CODE = [1, 2, 3, 4]
 last_digits = []
-security = False
+security_mode = False
+alarm_security = False
+alarm_gyro = False
 
 # MQTT Configuration
 mqtt_client = mqtt.Client()
@@ -49,21 +51,41 @@ mqtt_client.on_message = lambda client, userdata, msg: save_to_db(json.loads(msg
 
 
 def check_password(data):
-    global last_alarm_reset, alarm_state, last_digits, security
+    global last_alarm_reset, alarm_door_stuck, last_digits, security_mode, alarm_security
     if data["measurement"] == "DMS":
         last_digits.append(data["value"])
         last_digits = last_digits[-4:]
-        print('Comparing code: ', last_digits, ' with ', CODE)
         if last_digits == CODE:
             last_alarm_reset = datetime.datetime.utcnow()
-            alarm_state = False
+            alarm_door_stuck = False
+            alarm_security = False
+            alarm_gyro = False
             save_alarm_to_db("Correct code entered", False)
-            security = not security
+            security_mode = not security_mode
+
+
+def check_security(data):
+    global last_alarm_reset, security_mode, alarm_security
+
+    if security_mode and not alarm_security:
+        if data["measurement"] == "DS_LEN":
+            alarm_security = True
+            save_alarm_to_db(f"Somebody opened door ({data['name']}) while security was ON", True)
+
+
+def check_gyro(data):
+    global last_alarm_reset, alarm_gyro
+
+    if data["measurement"] == "Gyroscope":
+        alarm_gyro = True
+        save_alarm_to_db(f"Sufficient movement detected ({data['name']}) - maybe earthquake", True)
 
 
 def save_to_db(data):
     check_password(data)
-    print("Saving to DB")
+    check_security(data)
+    check_gyro(data)
+
     write_api = influxdb_client.write_api(write_options=SYNCHRONOUS)
     point = (
         Point(data["measurement"])
@@ -72,25 +94,21 @@ def save_to_db(data):
             .tag("name", data["name"])
             .field("measurement", data["value"])
     )
-    print(point.to_line_protocol())
     write_api.write(bucket=bucket, org=org, record=point)
 
 
 def save_alarm_to_db(reason, alarm_on=True):
-    print("Saving alarm to DB")
     write_api = influxdb_client.write_api(write_options=SYNCHRONOUS)
     point = (
         Point('ALARM')
             .field("measurement", alarm_on)
     )
-    print(point.to_line_protocol())
     write_api.write(bucket=bucket, org=org, record=point)
     point = (
         Point('ALARM_REASON')
             .tag("alarm_on", alarm_on)
             .field("measurement", reason)
     )
-    print(point.to_line_protocol())
     write_api.write(bucket=bucket, org=org, record=point)
 
 
@@ -140,24 +158,37 @@ def drop_measurement(measurement):
     return jsonify({"status": "success"})
 
 
+@app.route('/api/alarm', methods=['GET'])
+def get_alarm():
+    return jsonify({"status": "success", "alarm": alarm_door_stuck or alarm_security or alarm_gyro})
+
+
+@app.route('/api/alarm/off', methods=['POST'])
+def alarm_off():
+    global alarm_door_stuck, alarm_security, alarm_gyro, last_alarm_reset
+    alarm_door_stuck = False
+    alarm_security = False
+    alarm_gyro = False
+    last_alarm_reset = datetime.datetime.utcnow()
+    save_alarm_to_db("Alarm turned off via website", False)
+    return jsonify({"status": "success"})
+
+
 def check_ds():
-    global alarm_state, last_alarm_reset
+    global alarm_door_stuck, last_alarm_reset
     query_api = influxdb_client.query_api()
-    print(DS_LEN_MAX % last_alarm_reset.isoformat())
     tables = query_api.query(DS_LEN_MAX % last_alarm_reset.isoformat(), org=org)
     for table in tables:
         for record in table.records:
-            print(record.values)
             if record.values["_value"] > 5.0:
-                print("ALARM")
-                alarm_state = True
+                alarm_door_stuck = True
                 save_alarm_to_db(f"Door ({record.values['name']}) stuck for {record.values['_value']} s", True)
 
 
 def check_alarms():
-    global alarm_state, last_alarm_reset
+    global alarm_door_stuck, last_alarm_reset
     while True:
-        if not alarm_state:
+        if not alarm_door_stuck:
             try:
                 check_ds()
             except Exception as e:
