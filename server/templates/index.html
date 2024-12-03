@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+
+<div class="main">
+    <div class="alarm">
+        <button
+                id="alarm-btn" value="Reset alarm"
+                onclick="fetch('http://localhost:5000/api/alarm/off', {method: 'POST'})"
+        >
+            Reset alarm
+        </button>
+    </div>
+
+    <div class="security">
+        <button
+                value="Security on"
+                onclick="fetch('http://localhost:5000/api/security/on', {method: 'POST'})"
+                id="security-on-btn"
+        >
+            Security on
+        </button>
+        <button
+                value="Security off"
+                onclick="fetch('http://localhost:5000/api/security/off', {method: 'POST'})"
+                id="security-off-btn"
+        >
+            Security off
+        </button>
+        <div>
+            People in the house: <span id="people">0</span>
+        </div>
+    </div>
+
+    <dev class="wake-up">
+        <label for="appt">Choose a time for wake up call:</label>
+        <input type="datetime-local" id="appt" name="appt"/>
+        <button id="wake-up-set-btn" value="Set wake up call" onclick="setWakeUpTime()">
+            Set wake up call
+        </button>
+        <button
+                value="Remove wake up call"
+                onclick="removeWakeUpTime()"
+                id="wake-up-off-btn"
+        >
+            Remove wake up call
+        </button>
+    </dev>
+
+    {% for device_name in devices_config %}
+        <div class="device">
+            <h2>{{ device_name }}</h2>
+            <div class="measurements">
+                {% for measurement_name in devices_config[device_name] %}
+                    <h3>{{ measurement_name }}</h3>
+                    <p>
+                        Current state:
+                        <span id="{{ device_name }}_{{ measurement_name }}">
+                            No data
+                        </span>
+                    </p>
+                    {% if devices_config[device_name][measurement_name].grafana_id is defined %}
+                        <iframe src="http://localhost:3000/d-solo/{{ devices_config[device_name][measurement_name].grafana_id }}/alex-home?orgId=1&theme=light&panelId={{ devices_config[device_name][measurement_name].panel_id }}&from=now-24s&to=now&refresh=5s"
+                                width="450" height="200" frameborder="0"></iframe>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+    {% endfor %}
+</div>
+
+
+
+
+
+<script>
+    const config = {{ devices_config | tojson }};
+    const API_URL = 'http://localhost:5000';
+    const ALARM_SOUND_URL = 'http://localhost:5000/static/alarm-sound.mp3';
+
+    console.log(config)
+
+    setInterval(() => {
+        fetch(API_URL + '/api/last')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                for (let value of data.data) {
+                    const element = document.getElementById(value["name"] + '_' + value["_measurement"]);
+                    if (element) {
+                        const measurementFormat = config[value["name"]][value["_measurement"]]["measurement_format"];
+                        element.innerHTML = measurementFormat.replace('%s', value["_value"]);
+                    }
+                }
+            });
+    }, 5000);
+
+    var alarm = false;
+    var sound = false;
+    const alarmBtn = document.getElementById('alarm-btn');
+    const body = document.getElementsByTagName('body')[0];
+    alarmBtn.style.visibility = 'hidden';
+
+    setInterval(()=>{
+        fetch(API_URL + '/api/alarm')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                if (data["alarm"] && !alarm) {
+                    alarm = true;
+                    sound = new Audio(ALARM_SOUND_URL)
+                    sound.play()
+                    alarmBtn.style.visibility = 'visible';
+                    body.style.backgroundColor = 'red';
+                }
+                if (!data["alarm"] && alarm) {
+                    alarm = false;
+                    sound.pause()
+                    sound.currentTime = 0;
+                    alarmBtn.style.visibility = 'hidden';
+                    body.style.backgroundColor = '#F1F1F1';
+                }
+            });
+    }, 1000)
+
+    setInterval(()=>{
+        fetch(API_URL + '/api/security')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                if (data["security"]) {
+                    document.getElementById('security-on-btn').style.visibility = 'hidden';
+                    document.getElementById('security-off-btn').style.visibility = 'visible';
+                } else {
+                    document.getElementById('security-on-btn').style.visibility = 'visible';
+                    document.getElementById('security-off-btn').style.visibility = 'hidden';
+                }
+            });
+    }, 1000)
+
+    setInterval(()=>{
+        fetch(API_URL + '/api/people')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                document.getElementById('people').innerHTML = data["people"];
+            });
+    }, 2000)
+
+    function setWakeUpTime() {
+        let time = document.getElementById('appt').value;
+        fetch(API_URL + '/api/wake-up-time', {
+            method: 'POST',
+            body: JSON.stringify({time: time}),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+    }
+
+    function removeWakeUpTime() {
+        fetch('http://localhost:5000/api/security/wake-up-time/off', {method: 'POST'})
+        document.getElementById('appt').value = '';
+    }
+</script>
+</body>
+
+<style>
+body {
+    background-color: #F1F1F1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 10vh;
+    width: 100%;
+    overflow-x: hidden;
+}
+.main {
+    width: 80%;
+    background-color: white;
+}
+</style>
+
+</html>
